@@ -31,7 +31,9 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json({ success: true, message: "ありがとうございます！表示に反映されました" });
   } catch (e) {
-    console.error("report submission error:", e);
-    return NextResponse.json({ error: "投稿に失敗しました" }, { status: 500 });
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("report submission error:", msg);
+    // 開発中は詳細エラーを返す
+    return NextResponse.json({ error: "投稿に失敗しました", detail: msg }, { status: 500 });
   }
 }
